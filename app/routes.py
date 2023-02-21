@@ -9,20 +9,8 @@ def hello():
 
 @app.route('/profile', methods=['GET'])
 def profile():
-    username='elnxl'
-    github_html = requests.get(f'https://github.com/{username}').text
-    soup = BeautifulSoup(github_html, "html.parser")
-    fullname = soup.find('span',class_= "p-name vcard-fullname d-block overflow-hidden").text
-    nickname = soup.find('span',class_= "p-nickname vcard-username d-block").text
-    repos = soup.find('span',class_="Counter").text
-    follow = soup.find_all('span',class_="text-bold color-fg-default")
+    return render_template('profile.html')
 
-    user= {'username': nickname,
-           'fullname': fullname,
-           'city': 'Saint-Peterburg',
-           'repos': repos,
-           'followers': follow[0].text,
-           'following': follow[1].text
-    }
-
-    return render_template('profile.html', title='Profile', user=user)
+@app.route("/static/<path:file_path>")
+def files(file_path):
+    return url_for('static', filename=file_path)
